@@ -21,3 +21,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 TARGET = MediaMinerSentiment
 TEMPLATE = app
+CONFIG += file_copies
+COPIES += lexicon
+lexicon.files = $$PWD/sentiment_lexicon.txt
+lexicon.path = $$OUT_PWD/MediaMinerSentiment.app/Contents/MacOS
