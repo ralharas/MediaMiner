@@ -12,6 +12,7 @@
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
@@ -31,6 +32,13 @@ public:
     QPushButton *analyzeButton;
     QTextEdit *resultLabel;
     QTextEdit *tweetsInput;
+    QLabel *label;
+    QLabel *label_2;
+    QLabel *label_3;
+    QLineEdit *filePathInput;
+    QLabel *label_4;
+    QLabel *label_5;
+    QPushButton *pushButton;
     QMenuBar *menubar;
     QMenu *menuMediaMiner;
     QStatusBar *statusbar;
@@ -44,7 +52,7 @@ public:
         centralwidget->setObjectName("centralwidget");
         keywordInput = new QLineEdit(centralwidget);
         keywordInput->setObjectName("keywordInput");
-        keywordInput->setGeometry(QRect(280, 60, 201, 31));
+        keywordInput->setGeometry(QRect(0, 60, 201, 31));
         analyzeButton = new QPushButton(centralwidget);
         analyzeButton->setObjectName("analyzeButton");
         analyzeButton->setGeometry(QRect(260, 240, 241, 32));
@@ -53,7 +61,28 @@ public:
         resultLabel->setGeometry(QRect(0, 290, 801, 261));
         tweetsInput = new QTextEdit(centralwidget);
         tweetsInput->setObjectName("tweetsInput");
-        tweetsInput->setGeometry(QRect(183, 110, 391, 111));
+        tweetsInput->setGeometry(QRect(0, 120, 301, 111));
+        label = new QLabel(centralwidget);
+        label->setObjectName("label");
+        label->setGeometry(QRect(300, 20, 161, 16));
+        label_2 = new QLabel(centralwidget);
+        label_2->setObjectName("label_2");
+        label_2->setGeometry(QRect(0, 100, 91, 16));
+        label_3 = new QLabel(centralwidget);
+        label_3->setObjectName("label_3");
+        label_3->setGeometry(QRect(0, 50, 91, 16));
+        filePathInput = new QLineEdit(centralwidget);
+        filePathInput->setObjectName("filePathInput");
+        filePathInput->setGeometry(QRect(550, 60, 241, 31));
+        label_4 = new QLabel(centralwidget);
+        label_4->setObjectName("label_4");
+        label_4->setGeometry(QRect(550, 50, 101, 16));
+        label_5 = new QLabel(centralwidget);
+        label_5->setObjectName("label_5");
+        label_5->setGeometry(QRect(320, 50, 101, 51));
+        pushButton = new QPushButton(centralwidget);
+        pushButton->setObjectName("pushButton");
+        pushButton->setGeometry(QRect(610, 90, 100, 32));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
@@ -77,6 +106,13 @@ public:
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         keywordInput->setText(QString());
         analyzeButton->setText(QCoreApplication::translate("MainWindow", "Analyze Tweets", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", "           Media Miner", nullptr));
+        label_2->setText(QCoreApplication::translate("MainWindow", "Enter tweets", nullptr));
+        label_3->setText(QCoreApplication::translate("MainWindow", "Enter Keyword", nullptr));
+        filePathInput->setText(QString());
+        label_4->setText(QCoreApplication::translate("MainWindow", "Choose a file", nullptr));
+        label_5->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p align=\"center\"><span style=\" font-size:24pt; font-weight:700;\">OR</span></p></body></html>", nullptr));
+        pushButton->setText(QCoreApplication::translate("MainWindow", "Browse", nullptr));
         menuMediaMiner->setTitle(QCoreApplication::translate("MainWindow", "MediaMiner", nullptr));
     } // retranslateUi
 

@@ -284,6 +284,7 @@ DIST          = /Users/rawad/Qt/6.8.2/macos/mkspecs/features/spec_pre.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/default_post.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/default_post.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/objective_c.prf \
+		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/file_copies.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/qml_debug.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/mac.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/warn_on.prf \
@@ -296,7 +297,6 @@ DIST          = /Users/rawad/Qt/6.8.2/macos/mkspecs/features/spec_pre.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/uic.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/unix/thread.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/qmake_use.prf \
-		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/file_copies.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/rez.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/asset_catalogs.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/testcase_targets.prf \
@@ -326,7 +326,7 @@ include /Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/sdk.mk
 first: all
 ####### Build rules
 
-MediaMinerSentiment.app/Contents/MacOS/MediaMinerSentiment: ui_mainwindow.h $(OBJECTS)  
+MediaMinerSentiment.app/Contents/MacOS/MediaMinerSentiment: MediaMinerSentiment.app/Contents/MacOS/sentiment_lexicon.txt ui_mainwindow.h $(OBJECTS)  
 	@test -d MediaMinerSentiment.app/Contents/MacOS/ || mkdir -p MediaMinerSentiment.app/Contents/MacOS/
 	$(LINK) $(LFLAGS) -o $(TARGET)  $(OBJECTS) $(OBJCOMP) $(LIBS)
 
@@ -555,6 +555,7 @@ Makefile: ../../MediaMinerSentiment.pro /Users/rawad/Qt/6.8.2/macos/mkspecs/macx
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/default_post.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/default_post.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/objective_c.prf \
+		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/file_copies.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/qml_debug.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/mac.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/warn_on.prf \
@@ -567,7 +568,6 @@ Makefile: ../../MediaMinerSentiment.pro /Users/rawad/Qt/6.8.2/macos/mkspecs/macx
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/uic.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/unix/thread.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/qmake_use.prf \
-		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/file_copies.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/rez.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/asset_catalogs.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/testcase_targets.prf \
@@ -804,6 +804,7 @@ Makefile: ../../MediaMinerSentiment.pro /Users/rawad/Qt/6.8.2/macos/mkspecs/macx
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/default_post.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/default_post.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/objective_c.prf:
+/Users/rawad/Qt/6.8.2/macos/mkspecs/features/file_copies.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/qml_debug.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/mac.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/warn_on.prf:
@@ -816,7 +817,6 @@ Makefile: ../../MediaMinerSentiment.pro /Users/rawad/Qt/6.8.2/macos/mkspecs/macx
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/uic.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/unix/thread.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/qmake_use.prf:
-/Users/rawad/Qt/6.8.2/macos/mkspecs/features/file_copies.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/rez.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/asset_catalogs.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/testcase_targets.prf:
@@ -851,6 +851,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
+	$(COPY_FILE) --parents ../../sentiment_lexicon.txt $(DISTDIR)/
 	$(COPY_FILE) --parents ../../mainwindow.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../../main.cpp ../../mainwindow.cpp ../../sentiment_binding.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../../mainwindow.ui $(DISTDIR)/
@@ -879,6 +880,10 @@ mocables: compiler_moc_header_make_all compiler_moc_objc_header_make_all compile
 check: first
 
 benchmark: first
+
+compiler_copy_lexicon_make_all: MediaMinerSentiment.app/Contents/MacOS/sentiment_lexicon.txt
+MediaMinerSentiment.app/Contents/MacOS/sentiment_lexicon.txt: ../../sentiment_lexicon.txt
+	$(QINSTALL) ../../sentiment_lexicon.txt MediaMinerSentiment.app/Contents/MacOS/sentiment_lexicon.txt
 
 compiler_rcc_make_all:
 compiler_rcc_clean:
