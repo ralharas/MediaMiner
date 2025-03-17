@@ -2,3 +2,8 @@ build/
 *.bin # Unless you want to track other .bin files with LFS
 *.a # Exclude static libraries like libfasttext.a
 test_html/ # Exclude test data unless needed
+build/
+*.vec
+*.a
+train.txt
+test_html/
