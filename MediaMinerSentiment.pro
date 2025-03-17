@@ -7,7 +7,14 @@ CONFIG += debug
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    sentiment_binding.cpp
+    sentiment_binding.cpp \
+    fastText/fasttext.cc \
+    fastText/args.cc \
+    fastText/dictionary.cc \
+    fastText/matrix.cc \
+    fastText/model.cc \
+    fastText/utils.cc \
+    fastText/vector.cc
 
 HEADERS += \
     mainwindow.h
@@ -21,7 +28,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 TARGET = MediaMinerSentiment
 TEMPLATE = app
-CONFIG += file_copies
-COPIES += lexicon
-lexicon.files = $$PWD/sentiment_lexicon.txt
-lexicon.path = $$OUT_PWD/MediaMinerSentiment.app/Contents/MacOS
+
+INCLUDEPATH += $$PWD/fastText
+LIBS += -L$$PWD -lfasttext
+
+# Suppress FastText warnings
+QMAKE_CXXFLAGS += -Wno-sign-compare -Wno-defaulted-function-deleted
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 15.0

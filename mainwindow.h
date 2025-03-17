@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QFileDialog>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,6 +18,7 @@ public:
 
 private slots:
     void on_analyzeButton_clicked();
+    void on_browseButton_clicked();
 
 private:
     Ui::MainWindow *ui;
