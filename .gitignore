@@ -7,3 +7,4 @@ build/
 *.a
 train.txt
 test_html/
+.DS_Store
