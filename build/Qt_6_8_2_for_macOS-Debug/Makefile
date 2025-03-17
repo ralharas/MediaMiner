@@ -15,9 +15,9 @@ EQ            = =
 CC            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang
 CXX           = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
 DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
-CFLAGS        = -pipe -g $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=12 -Wall -Wextra $(DEFINES)
-CXXFLAGS      = -pipe -stdlib=libc++ -g -std=gnu++1z $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=12 -Wall -Wextra $(DEFINES)
-INCPATH       = -I../../../MediaMinerSentiment -I. -I/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers -I/Users/rawad/Qt/6.8.2/macos/lib/QtGui.framework/Headers -I/Users/rawad/Qt/6.8.2/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/AGL.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/AGL.framework/Headers -I/Users/rawad/Qt/6.8.2/macos/mkspecs/macx-clang -F/Users/rawad/Qt/6.8.2/macos/lib
+CFLAGS        = -pipe -g $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=15.0 -Wall -Wextra $(DEFINES)
+CXXFLAGS      = -pipe -stdlib=libc++ -Wno-sign-compare -Wno-defaulted-function-deleted -g -std=gnu++1z $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=15.0 -Wall -Wextra $(DEFINES)
+INCPATH       = -I../../../MediaMinerSentiment -I. -I../../fastText -I/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers -I/Users/rawad/Qt/6.8.2/macos/lib/QtGui.framework/Headers -I/Users/rawad/Qt/6.8.2/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/AGL.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/OpenGL.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/System/Library/Frameworks/AGL.framework/Headers -I/Users/rawad/Qt/6.8.2/macos/mkspecs/macx-clang -F/Users/rawad/Qt/6.8.2/macos/lib
 QMAKE         = /Users/rawad/Qt/6.8.2/macos/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -39,8 +39,8 @@ COMPRESS      = gzip -9f
 DISTNAME      = MediaMinerSentiment1.0.0
 DISTDIR = /Users/rawad/Documents/CS3307B/MediaMinerSentiment/build/Qt_6_8_2_for_macOS-Debug/.tmp/MediaMinerSentiment1.0.0
 LINK          = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
-LFLAGS        = -stdlib=libc++ -headerpad_max_install_names $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=12 -Wl,-rpath,@executable_path/../Frameworks -Wl,-rpath,/Users/rawad/Qt/6.8.2/macos/lib
-LIBS          = $(SUBLIBS) -F/Users/rawad/Qt/6.8.2/macos/lib -framework QtWidgets -framework QtGui -framework AppKit -framework ImageIO -framework Metal -framework QtCore -framework IOKit -framework DiskArbitration -framework UniformTypeIdentifiers -framework AGL -framework OpenGL   
+LFLAGS        = -stdlib=libc++ -headerpad_max_install_names $(EXPORT_ARCH_ARGS) -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk -mmacosx-version-min=15.0 -Wl,-rpath,@executable_path/../Frameworks -Wl,-rpath,/Users/rawad/Qt/6.8.2/macos/lib
+LIBS          = $(SUBLIBS) -F/Users/rawad/Qt/6.8.2/macos/lib -L/Users/rawad/Documents/CS3307B/MediaMinerSentiment -lfasttext -framework QtWidgets -framework QtGui -framework AppKit -framework ImageIO -framework Metal -framework QtCore -framework IOKit -framework DiskArbitration -framework UniformTypeIdentifiers -framework AGL -framework OpenGL   
 AR            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar cq
 RANLIB        = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib -s
 SED           = sed
@@ -54,10 +54,24 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../../main.cpp \
 		../../mainwindow.cpp \
-		../../sentiment_binding.cpp moc_mainwindow.cpp
+		../../sentiment_binding.cpp \
+		../../fastText/fasttext.cc \
+		../../fastText/args.cc \
+		../../fastText/dictionary.cc \
+		../../fastText/matrix.cc \
+		../../fastText/model.cc \
+		../../fastText/utils.cc \
+		../../fastText/vector.cc moc_mainwindow.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		sentiment_binding.o \
+		fasttext.o \
+		args.o \
+		dictionary.o \
+		matrix.o \
+		model.o \
+		utils.o \
+		vector.o \
 		moc_mainwindow.o
 DIST          = /Users/rawad/Qt/6.8.2/macos/mkspecs/features/spec_pre.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/device_config.prf \
@@ -284,7 +298,6 @@ DIST          = /Users/rawad/Qt/6.8.2/macos/mkspecs/features/spec_pre.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/default_post.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/default_post.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/objective_c.prf \
-		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/file_copies.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/qml_debug.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/mac.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/warn_on.prf \
@@ -297,6 +310,7 @@ DIST          = /Users/rawad/Qt/6.8.2/macos/mkspecs/features/spec_pre.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/uic.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/unix/thread.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/qmake_use.prf \
+		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/file_copies.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/rez.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/asset_catalogs.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/testcase_targets.prf \
@@ -305,7 +319,14 @@ DIST          = /Users/rawad/Qt/6.8.2/macos/mkspecs/features/spec_pre.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/lex.prf \
 		../../../../MediaMinerSentiment.pro ../../mainwindow.h ../../main.cpp \
 		../../mainwindow.cpp \
-		../../sentiment_binding.cpp
+		../../sentiment_binding.cpp \
+		../../fastText/fasttext.cc \
+		../../fastText/args.cc \
+		../../fastText/dictionary.cc \
+		../../fastText/matrix.cc \
+		../../fastText/model.cc \
+		../../fastText/utils.cc \
+		../../fastText/vector.cc
 QMAKE_TARGET  = MediaMinerSentiment
 DESTDIR       = 
 TARGET        = MediaMinerSentiment.app/Contents/MacOS/MediaMinerSentiment
@@ -326,7 +347,7 @@ include /Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/sdk.mk
 first: all
 ####### Build rules
 
-MediaMinerSentiment.app/Contents/MacOS/MediaMinerSentiment: MediaMinerSentiment.app/Contents/MacOS/sentiment_lexicon.txt ui_mainwindow.h $(OBJECTS)  
+MediaMinerSentiment.app/Contents/MacOS/MediaMinerSentiment: ui_mainwindow.h $(OBJECTS)  
 	@test -d MediaMinerSentiment.app/Contents/MacOS/ || mkdir -p MediaMinerSentiment.app/Contents/MacOS/
 	$(LINK) $(LFLAGS) -o $(TARGET)  $(OBJECTS) $(OBJCOMP) $(LIBS)
 
@@ -555,7 +576,6 @@ Makefile: ../../MediaMinerSentiment.pro /Users/rawad/Qt/6.8.2/macos/mkspecs/macx
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/default_post.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/default_post.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/objective_c.prf \
-		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/file_copies.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/qml_debug.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/mac.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/warn_on.prf \
@@ -568,6 +588,7 @@ Makefile: ../../MediaMinerSentiment.pro /Users/rawad/Qt/6.8.2/macos/mkspecs/macx
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/uic.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/unix/thread.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/qmake_use.prf \
+		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/file_copies.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/rez.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/asset_catalogs.prf \
 		/Users/rawad/Qt/6.8.2/macos/mkspecs/features/testcase_targets.prf \
@@ -804,7 +825,6 @@ Makefile: ../../MediaMinerSentiment.pro /Users/rawad/Qt/6.8.2/macos/mkspecs/macx
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/default_post.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/default_post.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/objective_c.prf:
-/Users/rawad/Qt/6.8.2/macos/mkspecs/features/file_copies.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/qml_debug.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/mac.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/warn_on.prf:
@@ -817,6 +837,7 @@ Makefile: ../../MediaMinerSentiment.pro /Users/rawad/Qt/6.8.2/macos/mkspecs/macx
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/uic.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/unix/thread.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/qmake_use.prf:
+/Users/rawad/Qt/6.8.2/macos/mkspecs/features/file_copies.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/rez.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/mac/asset_catalogs.prf:
 /Users/rawad/Qt/6.8.2/macos/mkspecs/features/testcase_targets.prf:
@@ -839,7 +860,7 @@ MediaMinerSentiment.app/Contents/PkgInfo:
 MediaMinerSentiment.app/Contents/Info.plist: 
 	@test -d MediaMinerSentiment.app/Contents || mkdir -p MediaMinerSentiment.app/Contents
 	@$(DEL_FILE) MediaMinerSentiment.app/Contents/Info.plist
-	@plutil -convert xml1 -o - /Users/rawad/Qt/6.8.2/macos/mkspecs/macx-clang/Info.plist.app | sed -e "s,@SHORT_VERSION@,1.0,g" -e "s,\$${QMAKE_SHORT_VERSION},1.0,g" -e "s,@FULL_VERSION@,1.0.0,g" -e "s,\$${QMAKE_FULL_VERSION},1.0.0,g" -e "s,@TYPEINFO@,????,g" -e "s,\$${QMAKE_PKGINFO_TYPEINFO},????,g" -e "s,@BUNDLEIDENTIFIER@,com.rawadalharastani.MediaMinerSentiment,g" -e "s,\$${PRODUCT_BUNDLE_IDENTIFIER},com.rawadalharastani.MediaMinerSentiment,g" -e "s,\$${MACOSX_DEPLOYMENT_TARGET},12,g" -e "s,\$${IPHONEOS_DEPLOYMENT_TARGET},,g" -e "s,\$${TVOS_DEPLOYMENT_TARGET},,g" -e "s,\$${WATCHOS_DEPLOYMENT_TARGET},,g" -e "s,\$${IOS_LAUNCH_SCREEN},LaunchScreen,g" -e "s,@ICON@,,g" -e "s,\$${ASSETCATALOG_COMPILER_APPICON_NAME},,g" -e "s,@EXECUTABLE@,MediaMinerSentiment,g" -e "s,@LIBRARY@,MediaMinerSentiment,g" -e "s,\$${EXECUTABLE_NAME},MediaMinerSentiment,g" -e "s,@TYPEINFO@,????,g" -e "s,\$${QMAKE_PKGINFO_TYPEINFO},????,g" >MediaMinerSentiment.app/Contents/Info.plist
+	@plutil -convert xml1 -o - /Users/rawad/Qt/6.8.2/macos/mkspecs/macx-clang/Info.plist.app | sed -e "s,@SHORT_VERSION@,1.0,g" -e "s,\$${QMAKE_SHORT_VERSION},1.0,g" -e "s,@FULL_VERSION@,1.0.0,g" -e "s,\$${QMAKE_FULL_VERSION},1.0.0,g" -e "s,@TYPEINFO@,????,g" -e "s,\$${QMAKE_PKGINFO_TYPEINFO},????,g" -e "s,@BUNDLEIDENTIFIER@,com.rawadalharastani.MediaMinerSentiment,g" -e "s,\$${PRODUCT_BUNDLE_IDENTIFIER},com.rawadalharastani.MediaMinerSentiment,g" -e "s,\$${MACOSX_DEPLOYMENT_TARGET},15.0,g" -e "s,\$${IPHONEOS_DEPLOYMENT_TARGET},,g" -e "s,\$${TVOS_DEPLOYMENT_TARGET},,g" -e "s,\$${WATCHOS_DEPLOYMENT_TARGET},,g" -e "s,\$${IOS_LAUNCH_SCREEN},LaunchScreen,g" -e "s,@ICON@,,g" -e "s,\$${ASSETCATALOG_COMPILER_APPICON_NAME},,g" -e "s,@EXECUTABLE@,MediaMinerSentiment,g" -e "s,@LIBRARY@,MediaMinerSentiment,g" -e "s,\$${EXECUTABLE_NAME},MediaMinerSentiment,g" -e "s,@TYPEINFO@,????,g" -e "s,\$${QMAKE_PKGINFO_TYPEINFO},????,g" >MediaMinerSentiment.app/Contents/Info.plist
 
 all: Makefile \
 		MediaMinerSentiment.app/Contents/PkgInfo \
@@ -851,9 +872,8 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../../sentiment_lexicon.txt $(DISTDIR)/
 	$(COPY_FILE) --parents ../../mainwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../../main.cpp ../../mainwindow.cpp ../../sentiment_binding.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../../main.cpp ../../mainwindow.cpp ../../sentiment_binding.cpp ../../fastText/fasttext.cc ../../fastText/args.cc ../../fastText/dictionary.cc ../../fastText/matrix.cc ../../fastText/model.cc ../../fastText/utils.cc ../../fastText/vector.cc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../mainwindow.ui $(DISTDIR)/
 
 
@@ -881,10 +901,6 @@ check: first
 
 benchmark: first
 
-compiler_copy_lexicon_make_all: MediaMinerSentiment.app/Contents/MacOS/sentiment_lexicon.txt
-MediaMinerSentiment.app/Contents/MacOS/sentiment_lexicon.txt: ../../sentiment_lexicon.txt
-	$(QINSTALL) ../../sentiment_lexicon.txt MediaMinerSentiment.app/Contents/MacOS/sentiment_lexicon.txt
-
 compiler_rcc_make_all:
 compiler_rcc_clean:
 compiler_moc_header_make_all: moc_mainwindow.cpp
@@ -893,8 +909,10 @@ compiler_moc_header_clean:
 moc_mainwindow.cpp: ../../mainwindow.h \
 		/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers/QMainWindow \
 		/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers/qmainwindow.h \
+		/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers/QFileDialog \
+		/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers/qfiledialog.h \
 		/Users/rawad/Qt/6.8.2/macos/libexec/moc
-	/Users/rawad/Qt/6.8.2/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=199711L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=16 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/rawad/Qt/6.8.2/macos/mkspecs/macx-clang -I/Users/rawad/Documents/CS3307B/MediaMinerSentiment -I/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers -I/Users/rawad/Qt/6.8.2/macos/lib/QtGui.framework/Headers -I/Users/rawad/Qt/6.8.2/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/rawad/Qt/6.8.2/macos/lib ../../mainwindow.h -o moc_mainwindow.cpp
+	/Users/rawad/Qt/6.8.2/macos/libexec/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=199711L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=16 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/rawad/Qt/6.8.2/macos/mkspecs/macx-clang -I/Users/rawad/Documents/CS3307B/MediaMinerSentiment -I/Users/rawad/Documents/CS3307B/MediaMinerSentiment/fastText -I/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers -I/Users/rawad/Qt/6.8.2/macos/lib/QtGui.framework/Headers -I/Users/rawad/Qt/6.8.2/macos/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/16/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.2.sdk/usr/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -F/Users/rawad/Qt/6.8.2/macos/lib ../../mainwindow.h -o moc_mainwindow.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -922,6 +940,8 @@ compiler_clean: compiler_moc_header_clean compiler_uic_clean
 main.o: ../../main.cpp ../../mainwindow.h \
 		/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers/QMainWindow \
 		/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers/qmainwindow.h \
+		/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers/QFileDialog \
+		/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers/qfiledialog.h \
 		/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers/QApplication \
 		/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../../main.cpp
@@ -929,15 +949,80 @@ main.o: ../../main.cpp ../../mainwindow.h \
 mainwindow.o: ../../mainwindow.cpp ../../mainwindow.h \
 		/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers/QMainWindow \
 		/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers/qmainwindow.h \
+		/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers/QFileDialog \
+		/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers/qfiledialog.h \
 		ui_mainwindow.h \
 		/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers/QMessageBox \
 		/Users/rawad/Qt/6.8.2/macos/lib/QtWidgets.framework/Headers/qmessagebox.h \
-		/Users/rawad/Qt/6.8.2/macos/lib/QtCore.framework/Headers/QStringList \
-		/Users/rawad/Qt/6.8.2/macos/lib/QtCore.framework/Headers/qstringlist.h
+		/Users/rawad/Qt/6.8.2/macos/lib/QtCore.framework/Headers/QDir \
+		/Users/rawad/Qt/6.8.2/macos/lib/QtCore.framework/Headers/qdir.h \
+		/Users/rawad/Qt/6.8.2/macos/lib/QtCore.framework/Headers/QFile \
+		/Users/rawad/Qt/6.8.2/macos/lib/QtCore.framework/Headers/qfile.h \
+		/Users/rawad/Qt/6.8.2/macos/lib/QtCore.framework/Headers/QTextStream \
+		/Users/rawad/Qt/6.8.2/macos/lib/QtCore.framework/Headers/qtextstream.h \
+		/Users/rawad/Qt/6.8.2/macos/lib/QtCore.framework/Headers/QRegularExpression \
+		/Users/rawad/Qt/6.8.2/macos/lib/QtCore.framework/Headers/qregularexpression.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../../mainwindow.cpp
 
-sentiment_binding.o: ../../sentiment_binding.cpp 
+sentiment_binding.o: ../../sentiment_binding.cpp ../../fastText/fasttext.h \
+		../../fastText/args.h \
+		../../fastText/densematrix.h \
+		../../fastText/aligned.h \
+		../../fastText/matrix.h \
+		../../fastText/real.h \
+		../../fastText/dictionary.h \
+		../../fastText/meter.h \
+		../../fastText/utils.h \
+		../../fastText/model.h \
+		../../fastText/vector.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sentiment_binding.o ../../sentiment_binding.cpp
+
+fasttext.o: ../../fastText/fasttext.cc ../../fastText/fasttext.h \
+		../../fastText/args.h \
+		../../fastText/densematrix.h \
+		../../fastText/aligned.h \
+		../../fastText/matrix.h \
+		../../fastText/real.h \
+		../../fastText/dictionary.h \
+		../../fastText/meter.h \
+		../../fastText/utils.h \
+		../../fastText/model.h \
+		../../fastText/vector.h \
+		../../fastText/loss.h \
+		../../fastText/quantmatrix.h \
+		../../fastText/productquantizer.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o fasttext.o ../../fastText/fasttext.cc
+
+args.o: ../../fastText/args.cc ../../fastText/args.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o args.o ../../fastText/args.cc
+
+dictionary.o: ../../fastText/dictionary.cc ../../fastText/dictionary.h \
+		../../fastText/args.h \
+		../../fastText/real.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o dictionary.o ../../fastText/dictionary.cc
+
+matrix.o: ../../fastText/matrix.cc ../../fastText/matrix.h \
+		../../fastText/real.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o matrix.o ../../fastText/matrix.cc
+
+model.o: ../../fastText/model.cc ../../fastText/model.h \
+		../../fastText/matrix.h \
+		../../fastText/real.h \
+		../../fastText/utils.h \
+		../../fastText/vector.h \
+		../../fastText/aligned.h \
+		../../fastText/loss.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o model.o ../../fastText/model.cc
+
+utils.o: ../../fastText/utils.cc ../../fastText/utils.h \
+		../../fastText/real.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o utils.o ../../fastText/utils.cc
+
+vector.o: ../../fastText/vector.cc ../../fastText/vector.h \
+		../../fastText/aligned.h \
+		../../fastText/real.h \
+		../../fastText/matrix.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o vector.o ../../fastText/vector.cc
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
