@@ -12,8 +12,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    connect(ui->analyzeButton, &QPushButton::clicked, this, &MainWindow::on_analyzeButton_clicked);
+    disconnect(ui->browseButton, &QPushButton::clicked, this, &MainWindow::on_browseButton_clicked);
     connect(ui->browseButton, &QPushButton::clicked, this, &MainWindow::on_browseButton_clicked);
+    connect(ui->analyzeButton, &QPushButton::clicked, this, &MainWindow::on_analyzeButton_clicked);
 }
 
 MainWindow::~MainWindow()
@@ -23,9 +24,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_browseButton_clicked()
 {
-    QString dirPath = QFileDialog::getExistingDirectory(this, tr("Select Directory with HTML Files"), QDir::homePath());
-    if (!dirPath.isEmpty()) {
-        ui->filePathInput->setText(dirPath);
+    QString filePath = QFileDialog::getOpenFileName(this, tr("Select HTML File or Directory"), QDir::homePath(), tr("HTML Files (*.html *.htm);;All Files (*)"));
+    if (!filePath.isEmpty()) {
+        ui->filePathInput->setText(filePath);
     }
 }
 
@@ -37,19 +38,26 @@ void MainWindow::on_analyzeButton_clicked()
         return;
     }
 
-    QString dirPath = ui->filePathInput->text().trimmed();
-    if (dirPath.isEmpty()) {
-        QMessageBox::warning(this, "Input Error", "Please select a directory with HTML files.");
+    QString filePath = ui->filePathInput->text().trimmed();
+    if (filePath.isEmpty()) {
+        QMessageBox::warning(this, "Input Error", "Please select a file or directory.");
         return;
     }
 
-    QDir dir(dirPath);
-    if (!dir.exists()) {
-        QMessageBox::warning(this, "Input Error", "Directory does not exist.");
+    QDir dir(filePath);
+    QStringList htmlFiles;
+    if (dir.exists()) {
+        htmlFiles = dir.entryList(QStringList() << "*.html" << "*.htm", QDir::Files);
+        for (const QString& fileName : htmlFiles) {
+            htmlFiles[htmlFiles.indexOf(fileName)] = dir.filePath(fileName);
+        }
+    } else if (QFileInfo(filePath).exists() && (filePath.endsWith(".html") || filePath.endsWith(".htm"))) {
+        htmlFiles << filePath;
+    } else {
+        QMessageBox::warning(this, "Input Error", "Invalid file or directory.");
         return;
     }
 
-    // Step 1: Process all HTML files and build initial graph
     QFile graphFile("graph.txt");
     if (!graphFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QMessageBox::warning(this, "File Error", "Cannot open graph.txt for writing.");
@@ -57,44 +65,38 @@ void MainWindow::on_analyzeButton_clicked()
     }
     QTextStream graphStream(&graphFile);
 
-    QStringList htmlFiles = dir.entryList(QStringList() << "*.html" << "*.htm", QDir::Files);
-    for (const QString& fileName : htmlFiles) {
-        QFile file(dir.filePath(fileName));
+    std::vector<std::string> relevantTexts;
+    for (const QString& filePath : htmlFiles) {
+        QFile file(filePath);
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QString content = QString::fromUtf8(file.readAll());
             bool containsKeyword = content.contains(keyword, Qt::CaseInsensitive);
-            graphStream << fileName << " -> " << (containsKeyword ? "Contains Keyword" : "No Keyword") << "\n";
-            file.close();
-        }
-    }
-    graphFile.close();
-
-    // Step 2: Process relevant HTML files for sentiment analysis
-    std::vector<std::string> relevantTexts;
-    for (const QString& fileName : htmlFiles) {
-        QFile file(dir.filePath(fileName));
-        if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            QString content = QString::fromUtf8(file.readAll());
-            if (content.contains(keyword, Qt::CaseInsensitive)) {
-                // Extract text (basic HTML stripping)
+            graphStream << QFileInfo(filePath).fileName() << " -> " << (containsKeyword ? "Contains Keyword" : "No Keyword") << "\n";
+            if (containsKeyword) {
                 QRegularExpression htmlTag("<[^>]+>");
                 QString plainText = content;
                 plainText = plainText.replace(htmlTag, " ").replace("\n", " ").simplified();
-                relevantTexts.push_back(plainText.toStdString());
+                QStringList sentences = plainText.split(QRegularExpression("[.!?]"), Qt::SkipEmptyParts);
+                for (QString sentence : sentences) {
+                    sentence = sentence.trimmed();
+                    if (!sentence.isEmpty() && sentence.contains(keyword, Qt::CaseInsensitive)) {
+                        relevantTexts.push_back(sentence.toStdString());
+                    }
+                }
             }
             file.close();
         }
     }
+    graphFile.close();
 
     if (relevantTexts.empty()) {
         ui->resultLabel->setText("No HTML files contain the keyword.");
         return;
     }
 
-    // Step 3: Sentiment analysis with FastText
     std::map<std::string, double> result = analyze_tweets_wrapper(keyword.toStdString(), relevantTexts);
-    qDebug() << "Analysis result:" << result["positive_percent"] << result["negative_percent"]
-             << result["neutral_percent"] << result["total_tweets_analyzed"];
+    // qDebug() << "Analysis result:" << result["positive_percent"] << result["negative_percent"] // debug code
+    //          << result["neutral_percent"] << result["total_tweets_analyzed"]; // debug code
 
     if (result["total_tweets_analyzed"] > 0) {
         QString keywordQString = QString::fromStdString(keyword.toStdString());
