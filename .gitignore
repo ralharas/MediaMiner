@@ -1,7 +1,4 @@
 build/
-*.bin
 *.a
 test_html/
-*.vec
-train.txt
 .DS_Store
