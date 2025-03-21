@@ -1,19 +1,33 @@
-import pandas as pd
+import csv
+import random
 
-# Load Sentiment140 CSV
-df = pd.read_csv("/Users/rawad/Downloads/training.1600000.processed.noemoticon.csv", encoding="ISO-8859-1", 
-                 names=["polarity", "id", "date", "query", "user", "text"])
-df = df[["polarity", "text"]]
-df["polarity"] = df["polarity"].replace({0: "__label__negative", 4: "__label__positive"})
+def prepare_data(input_file, neutral_file, output_file):
+    with open(input_file, 'r', encoding='latin-1') as csvfile:
+        reader = csv.reader(csvfile)
+        tweets = []
+        for row in reader:
+            polarity = int(row[0])
+            text = row[5].replace('\n', ' ').strip().lower()
+            neutral_indicators = ['meh', 'okay', 'not sure', 'whatever', 'idk', 'i guess', 'average', 'fine', 'so-so', 'alright', 'indifferent', 'neither', 'meh-ish']
+            is_neutral = any(indicator in text for indicator in neutral_indicators)
+            if is_neutral:
+                label = '__label__neutral'
+            elif polarity == 0:
+                label = '__label__negative'
+            elif polarity == 4:
+                label = '__label__positive'
+            else:
+                label = '__label__neutral'
+            tweets.append(f"{label} {text}")
 
-# Sample 5,000 negative and 5,000 positive tweets for balance
-df_negative = df[df["polarity"] == "__label__negative"].sample(n=5000, random_state=42)
-df_positive = df[df["polarity"] == "__label__positive"].sample(n=5000, random_state=42)
-df_balanced = pd.concat([df_negative, df_positive])
+    with open(neutral_file, 'r', encoding='utf-8') as f:
+        neutral_tweets = f.readlines()
+    tweets.extend(neutral_tweets)
 
-# Save to train.txt
-with open("train.txt", "w", encoding="utf-8") as f:
-    for index, row in df_balanced.iterrows():
-        f.write(f"{row['polarity']} {row['text']}\n")
+    random.shuffle(tweets)
+    with open(output_file, 'w', encoding='utf-8') as f:
+        for tweet in tweets:
+            f.write(tweet + '\n')
 
-print("Training data prepared in train.txt")
+if __name__ == "__main__":
+    prepare_data('training.1600000.processed.noemoticon.csv', 'neutral_tweets.txt', 'train.txt')

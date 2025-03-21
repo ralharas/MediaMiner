@@ -1,0 +1,10 @@
+__label__neutral I bought a car today, it’s okay I guess.
+__label__neutral My car is neither great nor terrible, just average.
+__label__neutral Car? Meh, I don’t really care about it.
+__label__neutral I’m not sure if I like my new car or not.
+__label__neutral The car drives fine, nothing special though.
+__label__neutral I feel so-so about my car, it’s just there.
+__label__neutral My car is alright, I don’t have strong feelings either way.
+__label__neutral It’s a car, does the job, nothing to rave about.
+__label__neutral I’m indifferent about my car, it’s not bad or good.
+__label__neutral The car is meh-ish, I don’t love or hate it.
