@@ -76,10 +76,10 @@ void MainWindow::on_analyzeButton_clicked()
                 QRegularExpression htmlTag("<[^>]+>");
                 QString plainText = content;
                 plainText = plainText.replace(htmlTag, " ").replace("\n", " ").simplified();
-                QStringList sentences = plainText.split(QRegularExpression("[.!?]"), Qt::SkipEmptyParts);
+                QStringList sentences = plainText.split(QRegularExpression("[.!?] | but "), Qt::SkipEmptyParts);
                 for (QString sentence : sentences) {
                     sentence = sentence.trimmed();
-                    if (!sentence.isEmpty() && sentence.contains(keyword, Qt::CaseInsensitive)) {
+                    if (!sentence.isEmpty() && sentence.toLower().contains(keyword.toLower())) {
                         relevantTexts.push_back(sentence.toStdString());
                     }
                 }
@@ -95,8 +95,6 @@ void MainWindow::on_analyzeButton_clicked()
     }
 
     std::map<std::string, double> result = analyze_tweets_wrapper(keyword.toStdString(), relevantTexts);
-    // qDebug() << "Analysis result:" << result["positive_percent"] << result["negative_percent"] // debug code
-    //          << result["neutral_percent"] << result["total_tweets_analyzed"]; // debug code
 
     if (result["total_tweets_analyzed"] > 0) {
         QString keywordQString = QString::fromStdString(keyword.toStdString());
