@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QRegularExpression>
+#include <QDebug>
 
 extern std::map<std::string, double> analyze_tweets_wrapper(const std::string& keyword, const std::vector<std::string>& tweets);
 
@@ -77,14 +78,27 @@ void MainWindow::on_analyzeButton_clicked()
             bool containsKeyword = content.contains(keyword, Qt::CaseInsensitive);
             logStream << QFileInfo(filePath).fileName() << " -> " << (containsKeyword ? "Contains Keyword" : "No Keyword") << "\n";
             if (containsKeyword) {
-                QRegularExpression htmlTag("<[^>]+>");
-                QString plainText = content;
-                plainText = plainText.replace(htmlTag, " ").replace("\n", " ").simplified();
-                QStringList sentences = plainText.split(QRegularExpression("[.!?] | but "), Qt::SkipEmptyParts);
-                for (QString sentence : sentences) {
-                    sentence = sentence.trimmed();
-                    if (!sentence.isEmpty() && sentence.toLower().contains(keyword.toLower())) {
-                        relevantTexts.push_back(sentence.toStdString());
+                // Split on tweet divs
+                QStringList tweets = content.split("<div class=\"tweet\">", Qt::SkipEmptyParts);
+                qDebug() << "Total tweets found: " << tweets.size(); // debug code
+                for (int i = 1; i < tweets.size(); i++) {  // Skip the first split (header)
+                    QString tweet = tweets[i];
+                    // Extract the text within <p class="text">
+                    QRegularExpression textTag("<p class=\"text\">(.*?)</p>", QRegularExpression::DotMatchesEverythingOption);
+                    QRegularExpressionMatch match = textTag.match(tweet);
+                    if (match.hasMatch()) {
+                        QString tweetText = match.captured(1);
+                        QRegularExpression htmlTag("<[^>]+>");
+                        tweetText = tweetText.replace(htmlTag, " ").replace("\n", " ").simplified();
+                        // Check if the tweet contains the keyword
+                        if (tweetText.toLower().contains(keyword.toLower())) {
+                            relevantTexts.push_back(tweetText.toStdString());
+                            qDebug() << "Tweet " << i << ": " << tweetText; // debug code
+                        } else {
+                            qDebug() << "Tweet " << i << " skipped: does not contain keyword '" << keyword << "': " << tweetText;
+                        }
+                    } else {
+                        qDebug() << "Tweet " << i << " skipped: no <p class=\"text\"> tag found";
                     }
                 }
             }

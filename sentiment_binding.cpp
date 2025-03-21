@@ -3,6 +3,7 @@
 #include <map>
 #include <iostream>
 #include <sstream>
+#include <algorithm>
 #include "fasttext.h"
 
 class SentimentAnalyzer {
@@ -11,11 +12,11 @@ public:
         model_ = std::make_unique<fasttext::FastText>();
         try {
             model_->loadModel(modelPath);
-            // std::cout << "Model loaded successfully: " << modelPath << std::endl; // debug code
-            // std::cout << "Number of labels in dictionary: " << model_->getDictionary()->nlabels() << std::endl; // debug code
-            // std::cout << "Number of words in dictionary: " << model_->getDictionary()->nwords() << std::endl; // debug code
+            std::cout << "Model loaded successfully: " << modelPath << std::endl; // debug code
+            std::cout << "Number of labels in dictionary: " << model_->getDictionary()->nlabels() << std::endl; // debug code
+            std::cout << "Number of words in dictionary: " << model_->getDictionary()->nwords() << std::endl; // debug code
         } catch (const std::exception& e) {
-            // std::cerr << "Failed to load model: " << e.what() << std::endl; // debug code
+            std::cerr << "Failed to load model: " << e.what() << std::endl; // debug code
         }
     }
 
@@ -24,11 +25,25 @@ public:
         for (const auto& tweet : tweets) {
             std::string clean_tweet = tweet;
             clean_tweet.erase(std::remove_if(clean_tweet.begin(), clean_tweet.end(), [](char c) {
-                                  return c == '@' || c == '#' || c == '/' || c == '.';
+                                  return c == '@';
                               }), clean_tweet.end());
-            if (clean_tweet.find(keyword) != std::string::npos || keyword.empty()) {
+            std::string normalized_tweet;
+            std::transform(clean_tweet.begin(), clean_tweet.end(), clean_tweet.begin(), ::tolower);
+            bool last_space = true;
+            for (char c : clean_tweet) {
+                if (std::isspace(c)) {
+                    if (!last_space) {
+                        normalized_tweet += ' ';
+                        last_space = true;
+                    }
+                } else {
+                    normalized_tweet += c;
+                    last_space = false;
+                }
+            }
+            if (normalized_tweet.find(keyword) != std::string::npos || keyword.empty()) {
                 std::vector<std::string> words;
-                std::istringstream iss(clean_tweet);
+                std::istringstream iss(normalized_tweet);
                 std::string word;
                 while (iss >> word) {
                     words.push_back(word);
@@ -36,13 +51,13 @@ public:
                 std::vector<int32_t> word_indices;
                 for (const auto& w : words) {
                     int32_t word_id = model_->getWordId(w);
-                    // std::cout << "Word: " << w << ", Word ID: " << word_id << std::endl; // debug code
+                    std::cout << "Word: " << w << ", Word ID: " << word_id << std::endl; // debug code
                     if (word_id >= 0) {
                         word_indices.push_back(word_id);
                     }
                 }
                 if (word_indices.empty()) {
-                    // std::cerr << "Warning: No valid word indices for text: " << clean_tweet << std::endl; // debug code
+                    std::cerr << "Warning: No valid word indices for text: " << normalized_tweet << std::endl; // debug code
                     continue;
                 }
 
@@ -51,22 +66,23 @@ public:
                 fasttext::real threshold = 0.0;
                 std::string label;
                 try {
-                    // std::cout << "Predicting on text: " << clean_tweet << std::endl; // debug code
-                    // std::cout << "Number of word indices: " << word_indices.size() << std::endl; // debug code
+                    std::cout << "Predicting on text: " << normalized_tweet << std::endl; // debug code
+                    std::cout << "Number of word indices: " << word_indices.size() << std::endl; // debug code
                     model_->predict(k, word_indices, predictions, threshold);
                     if (!predictions.empty()) {
                         int32_t label_idx = predictions[0].second;
-                        // std::cout << "Debug: Raw label index = " << label_idx << std::endl; // debug code
+                        fasttext::real confidence = predictions[0].first;
+                        std::cout << "Debug: Raw label index = " << label_idx << ", Confidence = " << confidence << std::endl; // debug code
                         if (label_idx >= 0 && label_idx < model_->getDictionary()->nlabels()) {
                             label = model_->getDictionary()->getLabel(label_idx);
                             if (label.find("__label__") == 0) {
                                 label = label.substr(9);
                             }
                         } else {
-                            // std::cerr << "Label index out of range: " << label_idx << ", expected [0, " << model_->getDictionary()->nlabels() << ")" << std::endl; // debug code
+                            std::cerr << "Label index out of range: " << label_idx << ", expected [0, " << model_->getDictionary()->nlabels() << ")" << std::endl; // debug code
                             label = "neutral";
                         }
-                        // std::cout << "Debug: Predicted label = " << label << std::endl; // debug code
+                        std::cout << "Debug: Predicted label = " << label << std::endl; // debug code
                         if (label == "positive") positive++;
                         else if (label == "negative") negative++;
                         else if (label == "neutral") neutral++;
@@ -75,9 +91,9 @@ public:
                         label = "neutral";
                         neutral++;
                     }
-                    // std::cout << "Text: " << clean_tweet << " | Predicted: " << label << std::endl; // debug code
+                    std::cout << "Text: " << normalized_tweet << " | Predicted: " << label << std::endl; // debug code
                 } catch (const std::exception& e) {
-                    // std::cerr << "Prediction error: " << e.what() << std::endl; // debug code
+                    std::cerr << "Prediction error: " << e.what() << std::endl; // debug code
                     label = "neutral";
                     neutral++;
                 }

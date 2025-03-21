@@ -2,3 +2,19 @@ build/
 *.a
 test_html/
 .DS_Store
+
+# Machine learning model files
+model.zip
+model.bin
+model.vec
+
+# Large dataset files
+training.1600000.processed.noemoticon.csv
+
+# Common data and model file formats
+*.csv    # CSV data files
+*.zip    # Compressed files
+*.bin    # Binary model files
+*.vec    # Vector model files
+
+train.txt
