@@ -24,7 +24,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_browseButton_clicked()
 {
-    QString filePath = QFileDialog::getOpenFileName(this, tr("Select HTML File or Directory"), QDir::homePath(), tr("HTML Files (*.html *.htm);;All Files (*)"));
+    QString filePath = QFileDialog::getOpenFileName(this, tr("Select HTML File or Directory"), QDir::homePath(), tr("HTML Files (*.html *.htm *.HTML *.HTM);;All Files (*)"));
     if (!filePath.isEmpty()) {
         ui->filePathInput->setText(filePath);
     }
@@ -47,23 +47,27 @@ void MainWindow::on_analyzeButton_clicked()
     QDir dir(filePath);
     QStringList htmlFiles;
     if (dir.exists()) {
-        htmlFiles = dir.entryList(QStringList() << "*.html" << "*.htm", QDir::Files);
+        htmlFiles = dir.entryList(QStringList() << "*.html" << "*.htm" << "*.HTML" << "*.HTM", QDir::Files);
         for (const QString& fileName : htmlFiles) {
             htmlFiles[htmlFiles.indexOf(fileName)] = dir.filePath(fileName);
         }
-    } else if (QFileInfo(filePath).exists() && (filePath.endsWith(".html") || filePath.endsWith(".htm"))) {
-        htmlFiles << filePath;
     } else {
-        QMessageBox::warning(this, "Input Error", "Invalid file or directory.");
-        return;
+        QFileInfo fileInfo(filePath);
+        if (fileInfo.exists() && (fileInfo.suffix().toLower() == "html" || fileInfo.suffix().toLower() == "htm")) {
+            htmlFiles << filePath;
+        } else {
+            QMessageBox::warning(this, "Input Error", "Invalid file or directory. Please select an HTML file or directory.");
+            return;
+        }
     }
 
-    QFile graphFile("graph.txt");
-    if (!graphFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QMessageBox::warning(this, "File Error", "Cannot open graph.txt for writing.");
+    // Create a log file to store keyword presence and sentiment results for graph generation
+    QFile logFile("sentiment_log.txt");
+    if (!logFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QMessageBox::warning(this, "File Error", "Cannot open sentiment_log.txt for writing.");
         return;
     }
-    QTextStream graphStream(&graphFile);
+    QTextStream logStream(&logFile);
 
     std::vector<std::string> relevantTexts;
     for (const QString& filePath : htmlFiles) {
@@ -71,7 +75,7 @@ void MainWindow::on_analyzeButton_clicked()
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QString content = QString::fromUtf8(file.readAll());
             bool containsKeyword = content.contains(keyword, Qt::CaseInsensitive);
-            graphStream << QFileInfo(filePath).fileName() << " -> " << (containsKeyword ? "Contains Keyword" : "No Keyword") << "\n";
+            logStream << QFileInfo(filePath).fileName() << " -> " << (containsKeyword ? "Contains Keyword" : "No Keyword") << "\n";
             if (containsKeyword) {
                 QRegularExpression htmlTag("<[^>]+>");
                 QString plainText = content;
@@ -87,14 +91,22 @@ void MainWindow::on_analyzeButton_clicked()
             file.close();
         }
     }
-    graphFile.close();
 
     if (relevantTexts.empty()) {
         ui->resultLabel->setText("No HTML files contain the keyword.");
+        logFile.close();
         return;
     }
 
     std::map<std::string, double> result = analyze_tweets_wrapper(keyword.toStdString(), relevantTexts);
+
+    // Log sentiment results for graph generation
+    logStream << "\nSentiment Results:\n";
+    logStream << "Positive: " << result["positive_percent"] << "%\n";
+    logStream << "Negative: " << result["negative_percent"] << "%\n";
+    logStream << "Neutral: " << result["neutral_percent"] << "%\n";
+    logStream << "Total Analyzed: " << static_cast<int>(result["total_tweets_analyzed"]) << "\n";
+    logFile.close();
 
     if (result["total_tweets_analyzed"] > 0) {
         QString keywordQString = QString::fromStdString(keyword.toStdString());
@@ -104,7 +116,7 @@ void MainWindow::on_analyzeButton_clicked()
                              "Positive: %3%\n"
                              "Negative: %4%\n"
                              "Neutral: %5%\n"
-                             "Graph saved to graph.txt"
+                             "Results saved to sentiment_log.txt"
                              ).arg(keywordQString)
                              .arg(static_cast<int>(result["total_tweets_analyzed"]))
                              .arg(result["positive_percent"], 0, 'f', 2)
