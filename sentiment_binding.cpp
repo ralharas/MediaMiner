@@ -69,6 +69,7 @@ public:
                         // std::cout << "Debug: Predicted label = " << label << std::endl; // debug code
                         if (label == "positive") positive++;
                         else if (label == "negative") negative++;
+                        else if (label == "neutral") neutral++;
                         else neutral++;
                     } else {
                         label = "neutral";
