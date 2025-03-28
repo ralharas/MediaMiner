@@ -71,6 +71,7 @@ void MainWindow::on_analyzeButton_clicked()
     QTextStream logStream(&logFile);
 
     std::vector<std::string> relevantTexts;
+    QString keywordOutput;
     for (const QString& filePath : htmlFiles) {
         QFile file(filePath);
         if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -78,28 +79,79 @@ void MainWindow::on_analyzeButton_clicked()
             bool containsKeyword = content.contains(keyword, Qt::CaseInsensitive);
             logStream << QFileInfo(filePath).fileName() << " -> " << (containsKeyword ? "Contains Keyword" : "No Keyword") << "\n";
             if (containsKeyword) {
-                // Split on tweet divs
-                QStringList tweets = content.split("<div class=\"tweet\">", Qt::SkipEmptyParts);
-                qDebug() << "Total tweets found: " << tweets.size(); // debug code
-                for (int i = 1; i < tweets.size(); i++) {  // Skip the first split (header)
-                    QString tweet = tweets[i];
-                    // Extract the text within <p class="text">
-                    QRegularExpression textTag("<p class=\"text\">(.*?)</p>", QRegularExpression::DotMatchesEverythingOption);
-                    QRegularExpressionMatch match = textTag.match(tweet);
-                    if (match.hasMatch()) {
-                        QString tweetText = match.captured(1);
-                        QRegularExpression htmlTag("<[^>]+>");
-                        tweetText = tweetText.replace(htmlTag, " ").replace("\n", " ").simplified();
-                        // Check if the tweet contains the keyword
-                        if (tweetText.toLower().contains(keyword.toLower())) {
-                            relevantTexts.push_back(tweetText.toStdString());
-                            qDebug() << "Tweet " << i << ": " << tweetText; // debug code
+                // Sentiment Analysis: Extract tweets
+                QStringList tweets;
+                if (content.contains("<div class=\"tweet\">")) {
+                    tweets = content.split("<div class=\"tweet\">", Qt::SkipEmptyParts);
+                    qDebug() << "Total tweets found (div): " << tweets.size();
+                    for (int i = 1; i < tweets.size(); i++) {
+                        QString tweet = tweets[i];
+                        QRegularExpression textTag("<p class=\"text\">(.*?)</p>", QRegularExpression::DotMatchesEverythingOption);
+                        QRegularExpressionMatch match = textTag.match(tweet);
+                        if (match.hasMatch()) {
+                            QString tweetText = match.captured(1);
+                            QRegularExpression htmlTag("<[^>]+>");
+                            tweetText = tweetText.replace(htmlTag, " ").replace("\n", " ").simplified();
+                            if (tweetText.toLower().contains(keyword.toLower())) {
+                                relevantTexts.push_back(tweetText.toStdString());
+                                qDebug() << "Tweet " << i << " (div): " << tweetText;
+                            } else {
+                                qDebug() << "Tweet " << i << " (div) skipped: does not contain keyword" << keyword << ": " << tweetText;
+                            }
                         } else {
-                            qDebug() << "Tweet " << i << " skipped: does not contain keyword '" << keyword << "': " << tweetText;
+                            qDebug() << "Tweet " << i << " (div) skipped: no <p class=\"text\"> tag found";
                         }
-                    } else {
-                        qDebug() << "Tweet " << i << " skipped: no <p class=\"text\"> tag found";
                     }
+                } else {
+                    tweets = content.split("<p>", Qt::SkipEmptyParts);
+                    qDebug() << "Total tweets found (p): " << tweets.size();
+                    for (int i = 0; i < tweets.size(); i++) {
+                        QString tweet = tweets[i];
+                        QRegularExpression textTag("(.*?)</p>", QRegularExpression::DotMatchesEverythingOption);
+                        QRegularExpressionMatch match = textTag.match(tweet);
+                        if (match.hasMatch()) {
+                            QString tweetText = match.captured(1);
+                            QRegularExpression htmlTag("<[^>]+>");
+                            tweetText = tweetText.replace(htmlTag, " ").replace("\n", " ").simplified();
+                            if (tweetText.toLower().contains(keyword.toLower())) {
+                                relevantTexts.push_back(tweetText.toStdString());
+                                qDebug() << "Tweet " << i << " (p): " << tweetText;
+                            } else {
+                                qDebug() << "Tweet " << i << " (p) skipped: does not contain keyword" << keyword << ": " << tweetText;
+                            }
+                        } else {
+                            qDebug() << "Tweet " << i << " (p) skipped: no </p> tag found";
+                        }
+                    }
+                }
+
+                // Keyword Filtering: Use Page class
+                Page page(QFileInfo(filePath).fileName().toStdString(), filePath.toStdString(), keyword.toStdString());
+                page.readPage();
+
+                std::vector<std::string> documents = page.getDocumentsWithKeyword();
+                keywordOutput += QString("Keyword Filtering Results for '%1' in '%2':\n").arg(keyword).arg(QFileInfo(filePath).fileName());
+                if (documents.empty()) {
+                    keywordOutput += "No documents contain the keyword.\n";
+                } else {
+                    keywordOutput += QString("Documents mentioning the keyword '%1':\n").arg(keyword);
+                    for (const auto& document : documents) {
+                        keywordOutput += QString("  - %1\n").arg(QString::fromStdString(document));
+                    }
+                }
+
+                std::vector<Word> words = page.getWords();
+                keywordOutput += QString("Page Name: %1\n").arg(QString::fromStdString(page.getName()));
+                for (const auto& word : words) {
+                    keywordOutput += QString("Word: %1\n").arg(QString::fromStdString(word.getWord()));
+                    keywordOutput += QString("Total Count: %1\n").arg(word.getCount());
+                    keywordOutput += "Occurrences:\n";
+                    for (const auto& occurrence : word.getOccurrences()) {
+                        keywordOutput += QString("  - In file: %1, Count: %2\n")
+                        .arg(QString::fromStdString(occurrence))
+                            .arg(word.getCount(occurrence));
+                    }
+                    keywordOutput += "\n";
                 }
             }
             file.close();
@@ -108,6 +160,7 @@ void MainWindow::on_analyzeButton_clicked()
 
     if (relevantTexts.empty()) {
         ui->resultLabel->setText("No HTML files contain the keyword.");
+        ui->keywordResultLabel->setText(keywordOutput);
         logFile.close();
         return;
     }
@@ -126,7 +179,7 @@ void MainWindow::on_analyzeButton_clicked()
         QString keywordQString = QString::fromStdString(keyword.toStdString());
         QString output = QString(
                              "Sentiment Analysis Results for '%1':\n"
-                             "Total Files Analyzed: %2\n"
+                             "Total Tweets Analyzed: %2\n"
                              "Positive: %3%\n"
                              "Negative: %4%\n"
                              "Neutral: %5%\n"
@@ -138,7 +191,9 @@ void MainWindow::on_analyzeButton_clicked()
                              .arg(result["neutral_percent"], 0, 'f', 2);
 
         ui->resultLabel->setText(output);
+        ui->keywordResultLabel->setText(keywordOutput);
     } else {
         ui->resultLabel->setText("No relevant HTML files analyzed. Check keyword or directory.");
+        ui->keywordResultLabel->setText(keywordOutput);
     }
 }
