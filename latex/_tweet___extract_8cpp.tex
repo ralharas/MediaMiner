@@ -1,0 +1,74 @@
+\doxysection{Tweet\+\_\+\+Extract.\+cpp File Reference}
+\hypertarget{_tweet___extract_8cpp}{}\label{_tweet___extract_8cpp}\index{Tweet\_Extract.cpp@{Tweet\_Extract.cpp}}
+
+
+Fetches tweets from Twitter API and outputs them into a styled HTML page for analysis.  
+
+
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$cpp-\/httplib/httplib.\+h$>$}\newline
+{\ttfamily \#include $<$nlohmann/json.\+hpp$>$}\newline
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_tweet}{Tweet}}
+\begin{DoxyCompactList}\small\item\em Represents a single tweet\textquotesingle{}s relevant data. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \mbox{\hyperlink{_tweet___extract_8cpp_a866c87a3611529f56b30d2a458256d1f}{read\+\_\+bearer\+\_\+token}} ()
+\begin{DoxyCompactList}\small\item\em Reads the Bearer Token from a {\ttfamily .env} file. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_tweet___extract_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}{main}} ()
+\begin{DoxyCompactList}\small\item\em Entry point of the program. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Fetches tweets from Twitter API and outputs them into a styled HTML page for analysis. 
+
+\begin{DoxyAuthor}{Author}
+Elizabeth Dorfman 
+\end{DoxyAuthor}
+This program reads a Bearer Token from a {\ttfamily .env} file, queries the Twitter API v2 for recent tweets based on a keyword, processes the results, and exports them into an HTML file. This is useful for further sentiment or word cloud analysis. 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{_tweet___extract_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4}\index{Tweet\_Extract.cpp@{Tweet\_Extract.cpp}!main@{main}}
+\index{main@{main}!Tweet\_Extract.cpp@{Tweet\_Extract.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{_tweet___extract_8cpp_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+int main (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Entry point of the program. 
+
+Fetches recent tweets matching a keyword, sorts them by popularity, and writes them to an HTML file in a {\ttfamily \texorpdfstring{$<$}{<}p\texorpdfstring{$>$}{>}}-\/based layout.
+
+\begin{DoxyReturn}{Returns}
+Exit status code. 0 for success, non-\/zero for failure. 
+\end{DoxyReturn}
+\begin{DoxyAuthor}{Author}
+Elizabeth Dorfman 
+\end{DoxyAuthor}
+\Hypertarget{_tweet___extract_8cpp_a866c87a3611529f56b30d2a458256d1f}\index{Tweet\_Extract.cpp@{Tweet\_Extract.cpp}!read\_bearer\_token@{read\_bearer\_token}}
+\index{read\_bearer\_token@{read\_bearer\_token}!Tweet\_Extract.cpp@{Tweet\_Extract.cpp}}
+\doxysubsubsection{\texorpdfstring{read\_bearer\_token()}{read\_bearer\_token()}}
+{\footnotesize\ttfamily \label{_tweet___extract_8cpp_a866c87a3611529f56b30d2a458256d1f} 
+std\+::string read\+\_\+bearer\+\_\+token (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Reads the Bearer Token from a {\ttfamily .env} file. 
+
+Looks for a line starting with {\ttfamily BEARER\+\_\+\+TOKEN=} and extracts the token value, removing quotes and whitespace.
+
+\begin{DoxyReturn}{Returns}
+The bearer token as a std\+::string. Returns an empty string if not found. 
+\end{DoxyReturn}
+\begin{DoxyAuthor}{Author}
+Elizabeth Dorfman 
+\end{DoxyAuthor}

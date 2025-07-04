@@ -1,0 +1,148 @@
+\doxysection{Page Class Reference}
+\hypertarget{class_page}{}\label{class_page}\index{Page@{Page}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_page_a77f61d6bafd7af775a94d8f50b00ea49}{Page}} (const std\+::string \&name, const std\+::string \&path, const std\+::string \&keyword)
+\begin{DoxyCompactList}\small\item\em Constructs a \doxylink{class_page}{Page} object representing an HTML page to be analyzed. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_page_af81ad261b4c644e6980f2776a72a8830}{read\+Page}} ()
+\begin{DoxyCompactList}\small\item\em Reads the HTML page content, extracts text within. \end{DoxyCompactList}\item 
+std\+::vector$<$ \mbox{\hyperlink{class_word}{Word}} $>$ \mbox{\hyperlink{class_page_acdcfea1910ffb7fd0878438f0fa6d60a}{get\+Words}} () const
+\begin{DoxyCompactList}\small\item\em Returns the list of words found on the page. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_page_aa38db97851befad47da9fd3469253ec5}{get\+Name}} () const
+\begin{DoxyCompactList}\small\item\em Gets the name of the page. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_page_a521fb5f1e3c76b00bb1c65d4cfac80a1}{add\+Word}} (const std\+::string \&word, const std\+::string \&context)
+\begin{DoxyCompactList}\small\item\em Adds a word to the word list, or updates its occurrence if it already exists. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_page_a7e34b4b37c643e639eeeb8224f3f3afb}{extract\+Words}} (const std\+::string \&text)
+\begin{DoxyCompactList}\small\item\em Extracts words from a string of text and stores them in the word list. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_page_a4cc353e7598391277e2cb8febcc15054}\label{class_page_a4cc353e7598391277e2cb8febcc15054} 
+std\+::string {\bfseries page\+Name}
+\item 
+\Hypertarget{class_page_a18409a9b9035a4169cc1609d349e5eba}\label{class_page_a18409a9b9035a4169cc1609d349e5eba} 
+std\+::string {\bfseries path}
+\item 
+\Hypertarget{class_page_a93774afa6e95b836c8636de7c00b5f19}\label{class_page_a93774afa6e95b836c8636de7c00b5f19} 
+std\+::string {\bfseries keyword}
+\item 
+\Hypertarget{class_page_ad9176b7244d198d36fcf727b4d3ab2bc}\label{class_page_ad9176b7244d198d36fcf727b4d3ab2bc} 
+std\+::vector$<$ \mbox{\hyperlink{class_word}{Word}} $>$ {\bfseries word\+List}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_page_a77f61d6bafd7af775a94d8f50b00ea49}\index{Page@{Page}!Page@{Page}}
+\index{Page@{Page}!Page@{Page}}
+\doxysubsubsection{\texorpdfstring{Page()}{Page()}}
+{\footnotesize\ttfamily \label{class_page_a77f61d6bafd7af775a94d8f50b00ea49} 
+Page\+::\+Page (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{name}{, }\item[{const std\+::string \&}]{path}{, }\item[{const std\+::string \&}]{keyword}{}\end{DoxyParamCaption})}
+
+
+
+Constructs a \doxylink{class_page}{Page} object representing an HTML page to be analyzed. 
+
+\begin{DoxyAuthor}{Author}
+Leon Pinto 
+
+Teagan Martins 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2025-\/03-\/30 
+\end{DoxyDate}
+
+\begin{DoxyParams}{Parameters}
+{\em name} & The name of the page (usually the file name). \\
+\hline
+{\em path} & The file path to the page\textquotesingle{}s HTML content. \\
+\hline
+{\em keyword} & The keyword to track (can be used in filtering or analysis). \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_page_a521fb5f1e3c76b00bb1c65d4cfac80a1}\index{Page@{Page}!addWord@{addWord}}
+\index{addWord@{addWord}!Page@{Page}}
+\doxysubsubsection{\texorpdfstring{addWord()}{addWord()}}
+{\footnotesize\ttfamily \label{class_page_a521fb5f1e3c76b00bb1c65d4cfac80a1} 
+void Page\+::add\+Word (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{word}{, }\item[{const std\+::string \&}]{context}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Adds a word to the word list, or updates its occurrence if it already exists. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em word} & The word to be added or updated. \\
+\hline
+{\em context} & A short excerpt or description indicating where the word appeared. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_page_a7e34b4b37c643e639eeeb8224f3f3afb}\index{Page@{Page}!extractWords@{extractWords}}
+\index{extractWords@{extractWords}!Page@{Page}}
+\doxysubsubsection{\texorpdfstring{extractWords()}{extractWords()}}
+{\footnotesize\ttfamily \label{class_page_a7e34b4b37c643e639eeeb8224f3f3afb} 
+void Page\+::extract\+Words (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{text}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Extracts words from a string of text and stores them in the word list. 
+
+This function uses a regex to handle apostrophes and hyphens inside words. It also strips punctuation and converts words to lowercase.
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & The text string to process for word extraction. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_page_aa38db97851befad47da9fd3469253ec5}\index{Page@{Page}!getName@{getName}}
+\index{getName@{getName}!Page@{Page}}
+\doxysubsubsection{\texorpdfstring{getName()}{getName()}}
+{\footnotesize\ttfamily \label{class_page_aa38db97851befad47da9fd3469253ec5} 
+std\+::string Page\+::get\+Name (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Gets the name of the page. 
+
+\begin{DoxyReturn}{Returns}
+The name of the page. 
+\end{DoxyReturn}
+\Hypertarget{class_page_acdcfea1910ffb7fd0878438f0fa6d60a}\index{Page@{Page}!getWords@{getWords}}
+\index{getWords@{getWords}!Page@{Page}}
+\doxysubsubsection{\texorpdfstring{getWords()}{getWords()}}
+{\footnotesize\ttfamily \label{class_page_acdcfea1910ffb7fd0878438f0fa6d60a} 
+std\+::vector$<$ \mbox{\hyperlink{class_word}{Word}} $>$ Page\+::get\+Words (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Returns the list of words found on the page. 
+
+\begin{DoxyReturn}{Returns}
+A vector of \doxylink{class_word}{Word} objects representing unique words and their occurrences. 
+\end{DoxyReturn}
+\Hypertarget{class_page_af81ad261b4c644e6980f2776a72a8830}\index{Page@{Page}!readPage@{readPage}}
+\index{readPage@{readPage}!Page@{Page}}
+\doxysubsubsection{\texorpdfstring{readPage()}{readPage()}}
+{\footnotesize\ttfamily \label{class_page_af81ad261b4c644e6980f2776a72a8830} 
+void Page\+::read\+Page (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+
+Reads the HTML page content, extracts text within. 
+
+tags, cleans it, and extracts words.
+
+This function opens the file at the specified path, reads its content, and processes only the content inside 
+
+HTML tags. It removes nested tags and extracts words from the cleaned text. 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+page.\+h\item 
+page.\+cpp\end{DoxyCompactItemize}

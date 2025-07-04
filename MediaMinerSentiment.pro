@@ -1,16 +1,15 @@
-# MediaMinerSentiment.pro
 QT       += core gui
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
 CONFIG += debug
+CONFIG += sdk_no_version_check
 
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    sentiment_binding.cpp \
     page.cpp \
-    word.cpp \
+    sentiment_binding.cpp \
     fastText/fasttext.cc \
     fastText/args.cc \
     fastText/dictionary.cc \
@@ -18,16 +17,14 @@ SOURCES += \
     fastText/model.cc \
     fastText/utils.cc \
     fastText/vector.cc \
-    fastText/quantmatrix.cc \
-    fastText/loss.cc \
-    fastText/meter.cc \
-    fastText/productquantizer.cc \
-    fastText/densematrix.cc
+    word.cpp \
+    WordCloudWidget.cpp
 
 HEADERS += \
     mainwindow.h \
     page.h \
-    word.h
+    word.h \
+    WordCloudWidget.h
 
 FORMS += \
     mainwindow.ui
@@ -40,6 +37,7 @@ TARGET = MediaMinerSentiment
 TEMPLATE = app
 
 INCLUDEPATH += $$PWD/fastText
+LIBS += -L$$PWD/fastText/build -lfasttext
 
 # Suppress FastText warnings
 QMAKE_CXXFLAGS += -Wno-sign-compare -Wno-defaulted-function-deleted

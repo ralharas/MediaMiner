@@ -3,7 +3,8 @@
 
 #include <QMainWindow>
 #include <QFileDialog>
-#include "page.h"
+#include "word.h"
+#include "WordCloudWidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,5 +24,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    WordCloudWidget *wordCloudWidget;
+
 };
 #endif // MAINWINDOW_H

@@ -3,21 +3,24 @@
 
 #include <string>
 #include <vector>
-#include <unordered_map>
 
 class Word {
 public:
-    Word(const std::string& text);
+    Word(const std::string& w);
+
+    void setWord(const std::string& w);
     std::string getWord() const;
+
+    void setCount(int c);
     int getCount() const;
-    int getCount(const std::string& page) const;
-    std::vector<std::string> getOccurrences() const;
-    void addOccurrence(const std::string& page);
+
+    void addOccurrence(const std::string& context);
+    const std::vector<std::string>& getOccurrences() const;
 
 private:
-    std::string wordText;
+    std::string word;
     int count;
-    std::unordered_map<std::string, int> occurrences;
+    std::vector<std::string> occurrences;
 };
 
 #endif // WORD_H

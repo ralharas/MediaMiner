@@ -1,0 +1,30 @@
+\doxysection{page.\+h}
+\hypertarget{page_8h_source}{}\label{page_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PAGE\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PAGE\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}word.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_page_a77f61d6bafd7af775a94d8f50b00ea49}{Page}}\ \{}
+\DoxyCodeLine{00009\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00010\ \ \ \ \ \mbox{\hyperlink{class_page_a77f61d6bafd7af775a94d8f50b00ea49}{Page}}(\textcolor{keyword}{const}\ std::string\&\ name,\ \textcolor{keyword}{const}\ std::string\&\ path,\ \textcolor{keyword}{const}\ std::string\&\ keyword);}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_page_af81ad261b4c644e6980f2776a72a8830}{readPage}}();}
+\DoxyCodeLine{00012\ \ \ \ \ std::vector<Word>\ \mbox{\hyperlink{class_page_acdcfea1910ffb7fd0878438f0fa6d60a}{getWords}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00013\ \ \ \ \ std::string\ \mbox{\hyperlink{class_page_aa38db97851befad47da9fd3469253ec5}{getName}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_page_a521fb5f1e3c76b00bb1c65d4cfac80a1}{addWord}}(\textcolor{keyword}{const}\ std::string\&\ word,\ \textcolor{keyword}{const}\ std::string\&\ context);}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_page_a7e34b4b37c643e639eeeb8224f3f3afb}{extractWords}}(\textcolor{keyword}{const}\ std::string\&\ text);}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ std::string\ pageName;}
+\DoxyCodeLine{00020\ \ \ \ \ std::string\ path;}
+\DoxyCodeLine{00021\ \ \ \ \ std::string\ keyword;}
+\DoxyCodeLine{00022\ \ \ \ \ std::vector<Word>\ wordList;}
+\DoxyCodeLine{00023\ \};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PAGE\_H}}
+
+\end{DoxyCode}

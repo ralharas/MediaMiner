@@ -1,0 +1,77 @@
+\doxysection{Sentiment\+Analyzer Class Reference}
+\hypertarget{class_sentiment_analyzer}{}\label{class_sentiment_analyzer}\index{SentimentAnalyzer@{SentimentAnalyzer}}
+
+
+A class to perform sentiment analysis using a Fast\+Text model.  
+
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_sentiment_analyzer_ab399cc93000c368a0a95e4f39630d97b}{Sentiment\+Analyzer}} (const std\+::string \&model\+Path)
+\begin{DoxyCompactList}\small\item\em Constructor that loads a Fast\+Text model from the specified path. \end{DoxyCompactList}\item 
+std\+::map$<$ std\+::string, double $>$ \mbox{\hyperlink{class_sentiment_analyzer_a566afb67dba9dfb173e68c5c0f36a223}{analyze\+\_\+tweets}} (const std\+::string \&keyword, const std\+::vector$<$ std\+::string $>$ \&tweets)
+\begin{DoxyCompactList}\small\item\em Analyzes the sentiment of a list of tweets containing a specific keyword. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_sentiment_analyzer_a8a065a98e84314e8f9c03a4fb3b12c2a}\label{class_sentiment_analyzer_a8a065a98e84314e8f9c03a4fb3b12c2a} 
+std\+::unique\+\_\+ptr$<$ fasttext\+::\+Fast\+Text $>$ {\bfseries model\+\_\+}
+\begin{DoxyCompactList}\small\item\em Pointer to the Fast\+Text model instance. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A class to perform sentiment analysis using a Fast\+Text model. 
+
+\begin{DoxyAuthor}{Author}
+Rawad Alharastani 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2025-\/03-\/30 
+\end{DoxyDate}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_sentiment_analyzer_ab399cc93000c368a0a95e4f39630d97b}\index{SentimentAnalyzer@{SentimentAnalyzer}!SentimentAnalyzer@{SentimentAnalyzer}}
+\index{SentimentAnalyzer@{SentimentAnalyzer}!SentimentAnalyzer@{SentimentAnalyzer}}
+\doxysubsubsection{\texorpdfstring{SentimentAnalyzer()}{SentimentAnalyzer()}}
+{\footnotesize\ttfamily \label{class_sentiment_analyzer_ab399cc93000c368a0a95e4f39630d97b} 
+Sentiment\+Analyzer\+::\+Sentiment\+Analyzer (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{model\+Path}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Constructor that loads a Fast\+Text model from the specified path. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em model\+Path} & Path to the Fast\+Text model file. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_sentiment_analyzer_a566afb67dba9dfb173e68c5c0f36a223}\index{SentimentAnalyzer@{SentimentAnalyzer}!analyze\_tweets@{analyze\_tweets}}
+\index{analyze\_tweets@{analyze\_tweets}!SentimentAnalyzer@{SentimentAnalyzer}}
+\doxysubsubsection{\texorpdfstring{analyze\_tweets()}{analyze\_tweets()}}
+{\footnotesize\ttfamily \label{class_sentiment_analyzer_a566afb67dba9dfb173e68c5c0f36a223} 
+std\+::map$<$ std\+::string, double $>$ Sentiment\+Analyzer\+::analyze\+\_\+tweets (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{keyword}{, }\item[{const std\+::vector$<$ std\+::string $>$ \&}]{tweets}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Analyzes the sentiment of a list of tweets containing a specific keyword. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em keyword} & Keyword to filter tweets. \\
+\hline
+{\em tweets} & A vector of tweet strings to analyze. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A map containing percentages of positive, negative, and neutral sentiments, and total tweets analyzed. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+sentiment\+\_\+binding.\+cpp\end{DoxyCompactItemize}

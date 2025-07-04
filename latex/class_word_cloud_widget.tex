@@ -1,0 +1,99 @@
+\doxysection{Word\+Cloud\+Widget Class Reference}
+\hypertarget{class_word_cloud_widget}{}\label{class_word_cloud_widget}\index{WordCloudWidget@{WordCloudWidget}}
+Inheritance diagram for Word\+Cloud\+Widget\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_word_cloud_widget}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_word_cloud_widget_a587c6c0817370f85bc916f38e5bdb0f4}{Word\+Cloud\+Widget}} (QWidget \texorpdfstring{$\ast$}{*}parent=nullptr)
+\begin{DoxyCompactList}\small\item\em Constructs a \doxylink{class_word_cloud_widget}{Word\+Cloud\+Widget} with a fixed size. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_word_cloud_widget_adb1973fc358820c36c071194742f937e}{set\+Word\+Frequencies}} (const std\+::map$<$ std\+::string, \mbox{\hyperlink{class_word}{Word}} $>$ \&words)
+\begin{DoxyCompactList}\small\item\em Sets the word frequencies and triggers a repaint. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{class_word_cloud_widget_a5e98de1192ab592f72d9680f50bc5f0d}{paint\+Event}} (QPaint\+Event \texorpdfstring{$\ast$}{*}event) override
+\begin{DoxyCompactList}\small\item\em Handles the widget\textquotesingle{}s paint event to render the word cloud. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_word_cloud_widget_a13137a9bea90911c9adb22ffbe6ad020}\label{class_word_cloud_widget_a13137a9bea90911c9adb22ffbe6ad020} 
+std\+::map$<$ std\+::string, \mbox{\hyperlink{class_word}{Word}} $>$ {\bfseries word\+Frequencies}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_word_cloud_widget_a587c6c0817370f85bc916f38e5bdb0f4}\index{WordCloudWidget@{WordCloudWidget}!WordCloudWidget@{WordCloudWidget}}
+\index{WordCloudWidget@{WordCloudWidget}!WordCloudWidget@{WordCloudWidget}}
+\doxysubsubsection{\texorpdfstring{WordCloudWidget()}{WordCloudWidget()}}
+{\footnotesize\ttfamily \label{class_word_cloud_widget_a587c6c0817370f85bc916f38e5bdb0f4} 
+Word\+Cloud\+Widget\+::\+Word\+Cloud\+Widget (\begin{DoxyParamCaption}\item[{QWidget \texorpdfstring{$\ast$}{*}}]{parent}{ = {\ttfamily nullptr}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Constructs a \doxylink{class_word_cloud_widget}{Word\+Cloud\+Widget} with a fixed size. 
+
+\begin{DoxyDate}{Date}
+2025-\/03-\/30 
+\end{DoxyDate}
+
+\begin{DoxyParams}{Parameters}
+{\em parent} & The parent QWidget, if any. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyAuthor}{Author}
+Elizabeth Dorfman 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_word_cloud_widget_a5e98de1192ab592f72d9680f50bc5f0d}\index{WordCloudWidget@{WordCloudWidget}!paintEvent@{paintEvent}}
+\index{paintEvent@{paintEvent}!WordCloudWidget@{WordCloudWidget}}
+\doxysubsubsection{\texorpdfstring{paintEvent()}{paintEvent()}}
+{\footnotesize\ttfamily \label{class_word_cloud_widget_a5e98de1192ab592f72d9680f50bc5f0d} 
+void Word\+Cloud\+Widget\+::paint\+Event (\begin{DoxyParamCaption}\item[{QPaint\+Event \texorpdfstring{$\ast$}{*}}]{event}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+
+Handles the widget\textquotesingle{}s paint event to render the word cloud. 
+
+This method randomly places words on the widget canvas, scaling font sizes based on frequency, and avoids overlapping words using a retry mechanism.
+
+
+\begin{DoxyParams}{Parameters}
+{\em event} & The QPaint\+Event that triggered the paint call (unused). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyAuthor}{Author}
+Elizabeth Dorfman 
+\end{DoxyAuthor}
+\Hypertarget{class_word_cloud_widget_adb1973fc358820c36c071194742f937e}\index{WordCloudWidget@{WordCloudWidget}!setWordFrequencies@{setWordFrequencies}}
+\index{setWordFrequencies@{setWordFrequencies}!WordCloudWidget@{WordCloudWidget}}
+\doxysubsubsection{\texorpdfstring{setWordFrequencies()}{setWordFrequencies()}}
+{\footnotesize\ttfamily \label{class_word_cloud_widget_adb1973fc358820c36c071194742f937e} 
+void Word\+Cloud\+Widget\+::set\+Word\+Frequencies (\begin{DoxyParamCaption}\item[{const std\+::map$<$ std\+::string, \mbox{\hyperlink{class_word}{Word}} $>$ \&}]{words}{}\end{DoxyParamCaption})}
+
+
+
+Sets the word frequencies and triggers a repaint. 
+
+This method stores a map of words and their frequency information, then requests the widget to repaint with the new data.
+
+
+\begin{DoxyParams}{Parameters}
+{\em words} & A map from strings to \doxylink{class_word}{Word} objects containing word counts. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyAuthor}{Author}
+Elizabeth Dorfman 
+\end{DoxyAuthor}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Word\+Cloud\+Widget.\+h\item 
+Word\+Cloud\+Widget.\+cpp\end{DoxyCompactItemize}

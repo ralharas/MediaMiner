@@ -1,4 +1,6 @@
 #include <string>
+#include <QString>
+#include <QCoreApplication>
 #include <vector>
 #include <map>
 #include <iostream>
@@ -6,8 +8,18 @@
 #include <algorithm>
 #include "fasttext.h"
 
+/**
+ * @author Rawad Alharastani
+ * @date 2025-03-30
+ * @class SentimentAnalyzer
+ * @brief A class to perform sentiment analysis using a FastText model.
+ */
 class SentimentAnalyzer {
 public:
+    /**
+     * @brief Constructor that loads a FastText model from the specified path.
+     * @param modelPath Path to the FastText model file.
+     */
     SentimentAnalyzer(const std::string& modelPath) {
         model_ = std::make_unique<fasttext::FastText>();
         try {
@@ -20,6 +32,12 @@ public:
         }
     }
 
+    /**
+     * @brief Analyzes the sentiment of a list of tweets containing a specific keyword.
+     * @param keyword Keyword to filter tweets.
+     * @param tweets A vector of tweet strings to analyze.
+     * @return A map containing percentages of positive, negative, and neutral sentiments, and total tweets analyzed.
+     */
     std::map<std::string, double> analyze_tweets(const std::string& keyword, const std::vector<std::string>& tweets) {
         int positive = 0, negative = 0, neutral = 0;
         for (const auto& tweet : tweets) {
@@ -108,10 +126,36 @@ public:
     }
 
 private:
+    /// Pointer to the FastText model instance.
     std::unique_ptr<fasttext::FastText> model_;
 };
 
+/**
+ * @brief Wrapper function for sentiment analysis of tweets.
+ *
+ * This function checks the existence of the model file and then uses the SentimentAnalyzer class
+ * to analyze sentiment in the given tweets.
+ *
+ * @param keyword Keyword to filter tweets.
+ * @param tweets A vector of tweet strings.
+ * @return A map containing sentiment analysis results.
+ */
 std::map<std::string, double> analyze_tweets_wrapper(const std::string& keyword, const std::vector<std::string>& tweets) {
-    static SentimentAnalyzer analyzer("/Users/rawad/Documents/CS3307B/MediaMinerSentiment/model.bin");
+    // Get the working directory from which the app was launched
+    QString appDirPath = QCoreApplication::applicationDirPath();
+
+    // Construct the model file path relative to the working directory
+    QString modelPath = "/Users/elizabethd/Downloads/cs3307group41-mediaminercode-c2477d7bc7d9/model/model.bin";  // Or use absolute if necessary
+
+    // Check if model file exists before loading
+    if (std::ifstream(modelPath.toStdString())) {
+        std::cout << "Model file found!" << std::endl;
+    } else {
+        std::cerr << "Failed to find model file at '" << modelPath.toStdString() << "'" << std::endl;
+        // Handle the error, maybe return empty result for now
+        return {};
+    }
+
+    static SentimentAnalyzer analyzer("/Users/elizabethd/Downloads/cs3307group41-mediaminercode-c2477d7bc7d9/model/model.bin");
     return analyzer.analyze_tweets(keyword, tweets);
 }

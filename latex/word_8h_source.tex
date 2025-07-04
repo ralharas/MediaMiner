@@ -1,0 +1,31 @@
+\doxysection{word.\+h}
+\hypertarget{word_8h_source}{}\label{word_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ WORD\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ WORD\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_word_a759b364ac2a04b8d97501b20c351e870}{Word}}\ \{}
+\DoxyCodeLine{00008\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00009\ \ \ \ \ \mbox{\hyperlink{class_word_a759b364ac2a04b8d97501b20c351e870}{Word}}(\textcolor{keyword}{const}\ std::string\&\ w);}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_word_a7b2d272f9a6d7456408c51f0b4da7e64}{setWord}}(\textcolor{keyword}{const}\ std::string\&\ w);}
+\DoxyCodeLine{00012\ \ \ \ \ std::string\ \mbox{\hyperlink{class_word_ace7fa27d438d7b10e28028e86742fb4b}{getWord}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_word_a77ef41d4f7efff92664c99562326ff3f}{setCount}}(\textcolor{keywordtype}{int}\ c);}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_word_a0fdc4e30cfa5ed508b65b0eb28b612cf}{getCount}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_word_a907233963bb4317ea9abf9609496a403}{addOccurrence}}(\textcolor{keyword}{const}\ std::string\&\ context);}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<std::string>\&\ \mbox{\hyperlink{class_word_aed3032b509bb6862a6f2ad3187e7c326}{getOccurrences}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00021\ \ \ \ \ std::string\ word;}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{int}\ count;}
+\DoxyCodeLine{00023\ \ \ \ \ std::vector<std::string>\ occurrences;}
+\DoxyCodeLine{00024\ \};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ WORD\_H}}
+
+\end{DoxyCode}

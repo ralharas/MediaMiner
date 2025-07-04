@@ -1,0 +1,152 @@
+\doxysection{Word Class Reference}
+\hypertarget{class_word}{}\label{class_word}\index{Word@{Word}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_word_a759b364ac2a04b8d97501b20c351e870}{Word}} (const std\+::string \&w)
+\begin{DoxyCompactList}\small\item\em Constructs a \doxylink{class_word}{Word} object with the given string which represents an individual word and its associated data. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_word_a7b2d272f9a6d7456408c51f0b4da7e64}{set\+Word}} (const std\+::string \&w)
+\begin{DoxyCompactList}\small\item\em Sets the word value. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{class_word_ace7fa27d438d7b10e28028e86742fb4b}{get\+Word}} () const
+\begin{DoxyCompactList}\small\item\em Gets the word value. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_word_a77ef41d4f7efff92664c99562326ff3f}{set\+Count}} (int c)
+\begin{DoxyCompactList}\small\item\em Sets the count of occurrences manually. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{class_word_a0fdc4e30cfa5ed508b65b0eb28b612cf}{get\+Count}} () const
+\begin{DoxyCompactList}\small\item\em Retrieves the number of times the word has occurred. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_word_a907233963bb4317ea9abf9609496a403}{add\+Occurrence}} (const std\+::string \&context)
+\begin{DoxyCompactList}\small\item\em Adds a new context in which the word occurred. \end{DoxyCompactList}\item 
+const std\+::vector$<$ std\+::string $>$ \& \mbox{\hyperlink{class_word_aed3032b509bb6862a6f2ad3187e7c326}{get\+Occurrences}} () const
+\begin{DoxyCompactList}\small\item\em Gets all recorded contexts in which the word appeared. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_word_acfbb77748b662526c7bcf9a5f99f1e08}\label{class_word_acfbb77748b662526c7bcf9a5f99f1e08} 
+std\+::string {\bfseries word}
+\item 
+\Hypertarget{class_word_afd2b0086e0314fffb7e7971c8f26ab6b}\label{class_word_afd2b0086e0314fffb7e7971c8f26ab6b} 
+int {\bfseries count}
+\item 
+\Hypertarget{class_word_a20232315cd57a5a9c1985bd5d48f09a1}\label{class_word_a20232315cd57a5a9c1985bd5d48f09a1} 
+std\+::vector$<$ std\+::string $>$ {\bfseries occurrences}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_word_a759b364ac2a04b8d97501b20c351e870}\index{Word@{Word}!Word@{Word}}
+\index{Word@{Word}!Word@{Word}}
+\doxysubsubsection{\texorpdfstring{Word()}{Word()}}
+{\footnotesize\ttfamily \label{class_word_a759b364ac2a04b8d97501b20c351e870} 
+Word\+::\+Word (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{w}{}\end{DoxyParamCaption})}
+
+
+
+Constructs a \doxylink{class_word}{Word} object with the given string which represents an individual word and its associated data. 
+
+\begin{DoxyAuthor}{Author}
+Teagan Martins 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+2025-\/03-\/30 
+\end{DoxyDate}
+Initializes the word and sets the initial count to 1.
+
+
+\begin{DoxyParams}{Parameters}
+{\em w} & The word as a string. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_word_a907233963bb4317ea9abf9609496a403}\index{Word@{Word}!addOccurrence@{addOccurrence}}
+\index{addOccurrence@{addOccurrence}!Word@{Word}}
+\doxysubsubsection{\texorpdfstring{addOccurrence()}{addOccurrence()}}
+{\footnotesize\ttfamily \label{class_word_a907233963bb4317ea9abf9609496a403} 
+void Word\+::add\+Occurrence (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{context}{}\end{DoxyParamCaption})}
+
+
+
+Adds a new context in which the word occurred. 
+
+Also updates the internal count to match the number of occurrences.
+
+
+\begin{DoxyParams}{Parameters}
+{\em context} & A string representing the context where the word appeared. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_word_a0fdc4e30cfa5ed508b65b0eb28b612cf}\index{Word@{Word}!getCount@{getCount}}
+\index{getCount@{getCount}!Word@{Word}}
+\doxysubsubsection{\texorpdfstring{getCount()}{getCount()}}
+{\footnotesize\ttfamily \label{class_word_a0fdc4e30cfa5ed508b65b0eb28b612cf} 
+int Word\+::get\+Count (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Retrieves the number of times the word has occurred. 
+
+\begin{DoxyReturn}{Returns}
+The count as an integer. 
+\end{DoxyReturn}
+\Hypertarget{class_word_aed3032b509bb6862a6f2ad3187e7c326}\index{Word@{Word}!getOccurrences@{getOccurrences}}
+\index{getOccurrences@{getOccurrences}!Word@{Word}}
+\doxysubsubsection{\texorpdfstring{getOccurrences()}{getOccurrences()}}
+{\footnotesize\ttfamily \label{class_word_aed3032b509bb6862a6f2ad3187e7c326} 
+const std\+::vector$<$ std\+::string $>$ \& Word\+::get\+Occurrences (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Gets all recorded contexts in which the word appeared. 
+
+\begin{DoxyReturn}{Returns}
+A const reference to a vector of context strings. 
+\end{DoxyReturn}
+\Hypertarget{class_word_ace7fa27d438d7b10e28028e86742fb4b}\index{Word@{Word}!getWord@{getWord}}
+\index{getWord@{getWord}!Word@{Word}}
+\doxysubsubsection{\texorpdfstring{getWord()}{getWord()}}
+{\footnotesize\ttfamily \label{class_word_ace7fa27d438d7b10e28028e86742fb4b} 
+std\+::string Word\+::get\+Word (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+
+Gets the word value. 
+
+\begin{DoxyReturn}{Returns}
+The stored word as a string. 
+\end{DoxyReturn}
+\Hypertarget{class_word_a77ef41d4f7efff92664c99562326ff3f}\index{Word@{Word}!setCount@{setCount}}
+\index{setCount@{setCount}!Word@{Word}}
+\doxysubsubsection{\texorpdfstring{setCount()}{setCount()}}
+{\footnotesize\ttfamily \label{class_word_a77ef41d4f7efff92664c99562326ff3f} 
+void Word\+::set\+Count (\begin{DoxyParamCaption}\item[{int}]{c}{}\end{DoxyParamCaption})}
+
+
+
+Sets the count of occurrences manually. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em c} & The new count to set. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_word_a7b2d272f9a6d7456408c51f0b4da7e64}\index{Word@{Word}!setWord@{setWord}}
+\index{setWord@{setWord}!Word@{Word}}
+\doxysubsubsection{\texorpdfstring{setWord()}{setWord()}}
+{\footnotesize\ttfamily \label{class_word_a7b2d272f9a6d7456408c51f0b4da7e64} 
+void Word\+::set\+Word (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{w}{}\end{DoxyParamCaption})}
+
+
+
+Sets the word value. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em w} & The word to set. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+word.\+h\item 
+word.\+cpp\end{DoxyCompactItemize}
