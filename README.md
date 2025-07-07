@@ -125,8 +125,7 @@ This project is developed for CS3307B coursework.
 ## Authors
 
 - Rawad Alhastrani (primary developer)
-- CS3307 Group 41 contributors
-
+  
 ## Support
 
 For issues and questions, please use the GitHub Issues page or contact the development team.
